@@ -1,5 +1,6 @@
 package pl.edu.agh.eaiib.io.kotlindemo
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
@@ -7,8 +8,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.view.WindowManager
+import android.widget.TextView
 import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
@@ -18,15 +18,16 @@ import pl.edu.agh.eaiib.io.kotlindemo.view.SensorChangedEventHandler
 
 class MainActivity : Activity() {
     private lateinit var sensorEventHandler: SensorChangedEventHandler
+    private lateinit var accelerometerView: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
+
+        accelerometerView = findViewById(R.id.accelerometerValues)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
 
@@ -38,6 +39,11 @@ class MainActivity : Activity() {
                 Log.d("Timestamp: ", "$timestamp, values: ${it.values}")
                 sensorApi.send(it)
                 lastUpdate = timestamp
+                accelerometerView.text = """
+                           X: ${it.values[0]}
+                           Y: ${it.values[1]}
+                           Z: ${it.values[2]}
+                        """
             }
         }
 
