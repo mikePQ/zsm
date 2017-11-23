@@ -31,7 +31,7 @@ class MainActivity : Activity() {
         super.onResume()
 
         var lastUpdate = 0L
-        val sensorApi = SensorApiService.create(getConfigProperty(DATA_SERVER_URL_KEY, applicationContext))
+        val sensorApi = SensorApiService.create(getServerBaseUrl(applicationContext))
         sensorEventHandler = SensorChangedEventHandler(Sensor.TYPE_ACCELEROMETER) {
             val timestamp = it.timestamp
             if (timestamp - lastUpdate > INTERVAL) {

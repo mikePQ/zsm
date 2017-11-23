@@ -14,7 +14,11 @@ interface SensorApiService {
     fun addSensorData(@Body sensorData: SensorData): Flowable<Any>
 
     companion object Factory {
-        fun create(serverBaseUrl: String): SensorApiService {
+        fun create(serverBaseUrl: String = ""): SensorApiService {
+            if (serverBaseUrl.isEmpty()) {
+                return EmptySensorApiService()
+            }
+
             val retrofit = Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
@@ -24,4 +28,8 @@ interface SensorApiService {
             return retrofit.create(SensorApiService::class.java)
         }
     }
+}
+
+class EmptySensorApiService : SensorApiService {
+    override fun addSensorData(sensorData: SensorData): Flowable<Any> = Flowable.empty()
 }
