@@ -1,6 +1,7 @@
-package com.example.karol.kotlindemo
+package pl.edu.agh.eaiib.io.kotlindemo
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -12,7 +13,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 
-class SensorTestActivity : Activity(), SensorEventListener {
+class MainActivity : Activity(), SensorEventListener {
     private var sensorManager: SensorManager? = null
     private var color = false
     private var view: View? = null
